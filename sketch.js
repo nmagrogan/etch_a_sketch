@@ -1,26 +1,33 @@
-const dimX = 20;
-const dimY = 20;
-
 const container = document.querySelector(".container");
+const resetButton = document.querySelector("#reset");
+
 
 function color(e){
   e.target.classList.add("visited");
 }
 
-for(i = 0; i < dimX* dimY;i++){
-  let box = document.createElement("div");
-  box.setAttribute("class","box")
-  box.addEventListener("mouseover",color);
-  container.appendChild(box);
-}
+function setBoxes(length){
+  for(i = 0; i < length**2; i++){
+    let box = document.createElement("div");
+    box.setAttribute("class","box")
+    box.addEventListener("mouseover",color);
+    container.setAttribute(`style`, `grid-template-columns: repeat(${length}, auto);
+                                      grid-template-rows: repeat(${length}, auto);`)
 
-const resetButton = document.querySelector("#reset");
-
-function resetBoxes(e){
-  const visitedBoxes = document.querySelectorAll(".visited")
-  for(i = 0; i < visitedBoxes.length;i++){
-    visitedBoxes[i].classList.remove("visited")
+    container.appendChild(box);
   }
 }
 
+function resetBoxes(e){
+  const boxes = document.querySelectorAll(".box")
+  for(i = 0; i < boxes.length;i++){
+    boxes[i].remove();
+  }
+  let sideLength = prompt("Enter numebr of boxes per side.", 16);
+  setBoxes(sideLength);
+}
+
+
 resetButton.addEventListener("click", resetBoxes);
+
+setBoxes(16);
